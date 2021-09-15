@@ -4,9 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WDD 330 Directory</title>
+    <title>WDD 330 - Directory</title>
+
+    <script type="module" src="./lib/sparkle.js"></script>
 </head>
 <body>
     <h1>Hello World!</h1>
+    <div s-data="{ links: [ 
+        { title: 'W1 Notes', url: './W1/index.html' }
+    ] }">
+        <ul s-for="link in links">
+            <li>
+                <a s-text="link.title" s-bind="href to link.url"></a>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>
