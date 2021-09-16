@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,17 +8,28 @@
     <title>WDD 330 - Directory</title>
 
     <script type="module" src="./lib/sparkle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
+
 <body>
-    <h1>Hello World!</h1>
-    <div s-data="{ links: [ 
+    <div class="section">
+        <div class="container">
+            <div class="content">
+                <h1>Hello WDD 330!</h1>
+                <h3>Table of Contents</h3>
+                <div s-data="{ links: [ 
         { title: 'W1 Notes', url: './W1/index.html' }
     ] }">
-        <ul s-for="link in links">
-            <li>
-                <a s-text="link.title" s-bind="href to link.url"></a>
-            </li>
-        </ul>
+                    <ul s-for="link in links">
+                        <li>
+                            <a s-text="link.title" s-bind="href to link.url"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+
 </body>
+
 </html>
