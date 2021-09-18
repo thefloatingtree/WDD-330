@@ -18,8 +18,9 @@
                 <h1>Hello WDD 330!</h1>
                 <h3>Table of Contents</h3>
                 <div s-data="{ links: [ 
-                    { title: 'W1 Notes', url: './W1/index.html' }
-    ] }">
+                    { title: 'W1 Notes', url: './W1/index.html' },
+                    { title: 'W2 Notes', url: './W2/index.html' }
+                ] }" s-init="links[0].title = 'W2 Notes'">
                     <ul s-for="link in links">
                         <li>
                             <a s-text="link.title" s-bind="href to link.url"></a>
