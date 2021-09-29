@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W3 Todo</title>
+
+    <script type="module" src="../lib/sparkle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+
+<body>
+    <script>
+        function todoApp() {
+            return {
+                idCounter: 0,
+                todos: [],
+                todoValue: "",
+                addTodo: (self) => {
+                    if (!self.todoValue) return
+                    self.todos = [{ id: self.idCounter, text: self.todoValue }, ...self.todos]
+                    self.idCounter += 1
+                },
+                removeTodo: (self, idToRemove) => {
+                    self.todos = self.todos.filter(todo => todo.id !== idToRemove)
+                }
+            }
+        }
+    </script>
+    <div class="section" s-data="todoApp()">
+        <div class="container">
+            <h1 class="title">Todo</h1>
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input" type="text" placeholder="Buy some milk..."
+                        s-on="input do todoValue = $event.target.value">
+                </div>
+                <div class="control">
+                    <a class="button is-info" s-on="click do addTodo()">
+                        Add Todo
+                    </a>
+                </div>
+            </div>
+            <ul s-for="todo in todos">
+                <li class="my-5 mx-3">
+                    <div class="box columns is-vcentered">
+                        <div class="column is-narrow">
+                            <h2 class="subtitle" s-text="todos.findIndex(item => item.id === todo.id) + 1"></h2>
+                        </div>
+                        <div class="column">
+                            <h2 class="subtitle" s-text="todo.text"></h2>
+                        </div>
+                        <div class="column is-narrow">
+                            <button class="button is-danger" s-on="click do removeTodo(todo.id)">Remove Todo</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
