@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W4 Team - Tic Tac Toe</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./team.css">
+
+    <script type="module" src="../../lib/sparkle.js"></script>
+</head>
+
+<body>
+    <script>
+        const PLAYER_ONE = "X"
+        const PLAYER_TWO = "O"
+        const PLAYER_NONE = ""
+
+        function gameWon(board, turn) {
+            const winningPositions = [
+                [1, 1, 1, 0, 0, 0, 0, 0, 0], // rows
+                [0, 0, 0, 1, 1, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 1, 1, 1],
+                [1, 0, 0, 1, 0, 0, 1, 0, 0], // columns
+                [0, 1, 0, 0, 1, 0, 0, 1, 0],
+                [0, 0, 1, 0, 0, 1, 0, 0, 1],
+                [1, 0, 0, 0, 1, 0, 0, 0, 1], // diagonals
+                [0, 0, 1, 0, 1, 0, 1, 0, 0],
+            ]
+
+            
+            const justPlayerOne = board.map((value) => value === PLAYER_ONE)
+            const justPlayerTwo = board.map((value) => value === PLAYER_TWO)
+            
+            // Check for player one win
+            const playerOneWins = winningPositions
+                .map(winningPosition => {
+                    return winningPosition.reduce((acc, value, index) => acc + (value && justPlayerOne[index]), 0) === 3
+                })
+                .some(value => value) // If any are true, return true
+
+            // Check for player two win
+            const playerTwoWins = winningPositions
+                .map(winningPosition => {
+                    return winningPosition.reduce((acc, value, index) => acc + (value && justPlayerTwo[index]), 0) === 3
+                })
+                .some(value => value) // If any are true, return true
+
+            const draw = turn === 9 && !playerOneWins && !playerTwoWins
+            const any = playerOneWins || playerTwoWins || draw
+
+            return { playerOneWins, playerTwoWins, draw, any }
+        }
+
+        function ticTacToe() {
+            return {
+                board: Array(9).fill(PLAYER_NONE),
+                turn: 0,
+                gameResults: {},
+                player: (self) => {
+                    return self.turn % 2 == 0 ? PLAYER_ONE : PLAYER_TWO
+                },
+                takeTurn: (self, index) => {
+                    if (self.gameResults.any) return
+                    if (self.board[index] !== PLAYER_NONE) return
+                    self.board = Object.assign([], self.board, {[index]: self.player()}) // Immutable value-at-index change
+                    self.turn += 1
+                    self.gameResults = gameWon(self.board, self.turn)
+                },
+                reset: (self) => {
+                    self.board = Array(9).fill(PLAYER_NONE)
+                    self.turn = 0
+                    self.gameResults = {}
+                },
+                getSubtitle: (self) => {
+                    if (self.gameResults.playerOneWins) return `${PLAYER_ONE} Wins!`
+                    if (self.gameResults.playerTwoWins) return `${PLAYER_TWO} Wins!`
+                    if (self.gameResults.draw) return "Draw"
+                    return `Current Player: ${self.player()}`
+                }
+            }
+        }
+    </script>
+    <div s-data="ticTacToe()">
+        <div class="columns is-centered my-5">
+            <div class="column is-narrow">
+                <h1 class="title has-text-white">Tic Tac Toe</h1>
+                <h2 class="subtitle has-text-white" s-text="getSubtitle()"></h2>
+            </div>
+        </div>
+        <div class="columns is-mobile mx-5 my-5 is-centered">
+            <div class="column is-narrow">
+                <div class="block" s-text="board[0]" s-on="click do takeTurn(0)"></div>
+                <div class="block" s-text="board[1]" s-on="click do takeTurn(1)"></div>
+                <div class="block" s-text="board[2]" s-on="click do takeTurn(2)"></div>
+            </div>
+            <div class="column is-narrow">
+                <div class="block" s-text="board[3]" s-on="click do takeTurn(3)"></div>
+                <div class="block" s-text="board[4]" s-on="click do takeTurn(4)"></div>
+                <div class="block" s-text="board[5]" s-on="click do takeTurn(5)"></div>
+            </div>
+            <div class="column is-narrow">
+                <div class="block" s-text="board[6]" s-on="click do takeTurn(6)"></div>
+                <div class="block" s-text="board[7]" s-on="click do takeTurn(7)"></div>
+                <div class="block" s-text="board[8]" s-on="click do takeTurn(8)"></div>
+            </div>
+        </div>
+        <div class="columns is-centered">
+            <button class="button is-primary" s-on="click do reset()">Reset</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

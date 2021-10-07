@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WDD 330 - W4 Notes</title>
+
+    <script type="module" src="../lib/sparkle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+
+<body>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <p class="title">
+                Week 4 Index
+            </p>
+            <p class="subtitle">
+                <a href="../index.html">Go Home 🏠</a>
+            </p>
+        </div>
+    </section>
+    <div class="section">
+        <div class="container">
+            <div class="content">
+                <div class="columns">
+                    <div class="column is-narrow pr-6">
+                        <h2>Team</h2>
+                        <ul>
+                            <li><a href="./team/team.html">Tic Tac Toe</a></li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h2>Notes</h2>
+                        <h3>Reading: "JavaScript: Novice to Ninja, 2nd Edition"</h3>
+                        <ul>
+                            <li>Forms</li>
+                            <ul>
+                                <li>HTML forms are useful for extremely simple forms. But most of the time you'll be working in a framework that already has awesome form support. I just really dislike how when the submit button is pressed the browser navigates to the URL in the action attribute. I know you can call 'preventDefault()' on the event, but it's a pain in the butt.</li>
+                                <li>Form validation can be crazy complicated, HTML comes with some simple tools, but a lot of the time you'll have to write your own solution. Or rely on the solution your chosen framework or library gives you.</li>
+                            </ul>
+                            <li>OOP in JavaScript</li>
+                            <ul>
+                                <li>It's cool that you can use constructor functions to build objects, but it's also pretty useless. Just use ES6 classes! They're supported in every browser nowadays. Except IE, but if you have to work with IE you have bigger problems.</li>
+                                <li>Classes and objects are weird in JS. The 'class' syntax is really just sugar for prototype-based objects, it's all a facade, really. Still very convenient to use though! The class syntax really helps group things together visually, and helps developers coming from OOP languages feel comfortable.</li>
+                                <li>I forgot JS has a 'static' keyword for ES6 classes. I think last time I tried using them I ran into some issues with bundlers though? There was some weird issue.</li>
+                                <li>I feel like I learned about inheritance, used it a couple of times, and then never used it again. I guess most of the time when you're doing web development you really need inheritance.</li>
+                                <li>Using mixins is not very common, I've found.</li>
+                                <li>Arrow functions do not have their own 'this' context. Regular functions do. It's possible that's why I wasn't able to bind 'dataContext' to 'this' in the Function() execution environment. Something to look into!</li>
+                            </ul>
+                            <li>Modular JavaScript</li>
+                            <ul>
+                                <li>I didn't know that every module has its own global scope! But it totally makes sense that that would be the case!</li>
+                                <li>I also didn't know that you could use HTML-style comments in JS at all. A neat but very useless fact, I guess!</li>
+                                <li>JS modules are pretty useful! But one thing to consider when using them is that the browser makes a seperate HTTP call for each file, which could balloon to hundreds or thousands of calls in a large project. It's probably worth looking into a JS bundler like webpack or rollup for larger projects.</li>
+                                <li>You can do ES6 imports in node.js now! But it's a bit of a pain, you've got to use the .mjs file extension and also configure your package.json with { "type": "module" } to get it to work. And even then there are some quirks that make it easier to just stick with common js imports. Or use a bundler!</li>
+                            </ul>
+                        </ul>
+                        <h2>Questions</h2>
+                        <p>No Questions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
