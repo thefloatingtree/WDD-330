@@ -85,7 +85,7 @@
         }
     </script>
     <div s-data="ticTacToe()">
-        <div class="columns is-centered my-5">
+        <div class="columns is-mobile is-centered my-5">
             <div class="column is-narrow">
                 <h1 class="title has-text-white">Tic Tac Toe</h1>
                 <h2 class="subtitle has-text-white" s-text="getSubtitle()"></h2>
@@ -108,7 +108,7 @@
                 <div class="block" s-text="board[8]" s-on="click do takeTurn(8)"></div>
             </div>
         </div>
-        <div class="columns is-centered">
+        <div class="columns is-mobile is-centered">
             <button class="button is-primary" s-on="click do reset()">Reset</button>
         </div>
     </div>
