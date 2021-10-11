@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W5 Todo</title>
+
+    <script type="module" src="../lib/sparkle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+</head>
+
+<body>
+    <script>
+        const FILTER_ALL = 0
+        const FILTER_ACTIVE = 1
+        const FILTER_COMPLETED = 2
+
+        function uuidv4() {
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            )
+        }
+
+        function todoApp() {
+            return {
+                todos: [],
+                todoValue: "",
+                filter: FILTER_ALL,
+                addTodo(self) {
+                    if (!self.todoValue) return
+                    self.todos = [{ id: uuidv4(), text: self.todoValue, completed: false }, ...self.todos]
+                    self.refTodoInput.value = ""
+                    self.todoValue = ""
+                    self.saveTodos(self)
+                },
+                removeTodo(self, idToRemove) {
+                    self.todos = self.todos.filter(todo => todo.id !== idToRemove)
+                    self.saveTodos(self)
+                },
+                toggleTodo(self, idToComplete) {
+                    self.todos = self.todos.map(todo => {
+                        if (todo.id === idToComplete) {
+                            return { ...todo, completed: !todo.completed }
+                        }
+                        return todo
+                    })
+                    self.saveTodos(self)
+                },
+                countUncompletedTasks(self) {
+                    return self.todos.reduce((acc, todo) => acc + !todo.completed, 0)
+                },
+                getFilteredTodoList(self) {
+                    switch (self.filter) {
+                        case FILTER_ALL:
+                            return self.todos
+                        case FILTER_ACTIVE:
+                            return self.todos.filter(todo => !todo.completed)
+                        case FILTER_COMPLETED:
+                            return self.todos.filter(todo => todo.completed)
+                    }
+                },
+                saveTodos(self) {
+                    localStorage.setItem('todos', JSON.stringify(self.todos))
+                },
+                loadTodos(self) {
+                    const data = JSON.parse(localStorage.getItem('todos'))
+                    this.todos = data ? data : []
+                }
+            }
+        }
+    </script>
+    <div class="section" s-data="todoApp()" s-init="loadTodos()">
+        <div class="container">
+            <h1 class="title">Todo Application</h1>
+            <div class="columns is-vcentered">
+                <div class="column">
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" placeholder="Buy some milk..."
+                                s-on="input do todoValue = $event.target.value and keyup do if ($event.code === 'Enter') addTodo()"
+                                s-ref="refTodoInput">
+                        </div>
+                        <div class="control">
+                            <a class="button is-primary" s-on="click do addTodo()">
+                                Add Todo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-narrow">
+                    <div class="tabs is-toggle">
+                        <ul>
+                            <li s-bind="class to filter === FILTER_ALL ? 'is-active' : ''"
+                                s-on="click do filter = FILTER_ALL">
+                                <a><span>All</span></a>
+                            </li>
+                            <li s-bind="class to filter === FILTER_ACTIVE ? 'is-active' : ''"
+                                s-on="click do filter = FILTER_ACTIVE">
+                                <a><span>Active</span></a>
+                            </li>
+                            <li s-bind="class to filter === FILTER_COMPLETED ? 'is-active' : ''"
+                                s-on="click do filter = FILTER_COMPLETED">
+                                <a><span>Completed</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <ul s-for="todo in getFilteredTodoList()">
+                <li class="my-5 mx-3">
+                    <div class="box columns is-vcentered">
+                        <div class="column is-narrow">
+                            <div class="pretty p-svg p-curve p-bigger">
+                                <input type="checkbox" s-on="click do toggleTodo(todo.id)"
+                                    s-bind="checked to todo.completed">
+                                <div class="state p-success">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                        <path
+                                            d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                                            style="stroke: white;fill:white;"></path>
+                                    </svg>
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <h2 class="subtitle" s-text="todo.text"></h2>
+                        </div>
+                        <div class="column is-narrow">
+                            <button class="button is-danger" s-on="click do removeTodo(todo.id)">Delete</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <p s-if="getFilteredTodoList().length" s-text="countUncompletedTasks() + ' task(s) left'"></p>
+            <p s-if="!getFilteredTodoList().length">No todos to show...</p>
+        </div>
+    </div>
+</body>
+
+</html>
