@@ -16,13 +16,24 @@
         <div class="container">
             <div class="content">
                 <h1>Hello WDD 330!</h1>
-                <h3>Table of Contents</h3>
+                <h2>Table of Contents</h2>
+                <h3>Weeks</h3>
                 <div s-data="{ links: [ 
-                    { title: 'W1 Notes', url: './W1/index.html' },
-                    { title: 'W2 Notes', url: './W2/index.html' },
-                    { title: 'W3 Notes', url: './W3/index.html' },
-                    { title: 'W4 Notes', url: './W4/index.html' },
-                    { title: 'W5 Notes', url: './W5/index.html' },
+                    { title: 'W1', url: './W1/index.html' },
+                    { title: 'W2', url: './W2/index.html' },
+                    { title: 'W3', url: './W3/index.html' },
+                    { title: 'W4', url: './W4/index.html' },
+                    { title: 'W5', url: './W5/index.html' },
+                ] }">
+                    <ul s-for="link in links">
+                        <li>
+                            <a s-text="link.title" s-bind="href to link.url"></a>
+                        </li>
+                    </ul>
+                </div>
+                <h3>Projects</h3>
+                <div s-data="{ links: [ 
+                    { title: 'Todo', url: './W5/todo/todo.html' },
                 ] }">
                     <ul s-for="link in links">
                         <li>
