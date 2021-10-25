@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W7 Async Test</title>
+
+    <script type="module" src="../../lib/sparkle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+
+<body>
+    <script>
+        function app() {
+            return {
+                isLoading: true,
+                imageSrc: null,
+                init() {
+                    fetch('https://derpibooru.org/api/v1/json/search/images?q=izzy%20moonbow,screencap,-edited%20screencap,safe,-korean,-anthro,-animated&sf=random&per_page=1&page=1')
+                        .then(res => res.json())
+                        .then(({ images }) => {
+                            this.isLoading = false
+                            this.imageSrc = images[0].representations.medium
+                        })
+                }
+            }
+        }
+    </script>
+
+    <div class="container section" s-data="app()" s-init="init()">
+        <div s-if="isLoading">Loading...</div>
+        <img s-if="!isLoading" s-bind="src to imageSrc" alt="Izzy pic" class="image">
+    </div>
+</body>
+
+</html>
