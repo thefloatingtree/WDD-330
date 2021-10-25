@@ -18,13 +18,13 @@
                 idCounter: 0,
                 todos: [],
                 todoValue: "",
-                addTodo: (self) => {
-                    if (!self.todoValue) return
-                    self.todos = [{ id: self.idCounter, text: self.todoValue }, ...self.todos]
-                    self.idCounter += 1
+                addTodo() {
+                    if (!this.todoValue) return
+                    this.todos = [{ id: this.idCounter, text: this.todoValue }, ...this.todos]
+                    this.idCounter += 1
                 },
-                removeTodo: (self, idToRemove) => {
-                    self.todos = self.todos.filter(todo => todo.id !== idToRemove)
+                removeTodo(idToRemove) {
+                    this.todos = this.todos.filter(todo => todo.id !== idToRemove)
                 }
             }
         }

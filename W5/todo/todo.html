@@ -30,43 +30,43 @@
                 todos: [],
                 todoValue: "",
                 filter: FILTER_ALL,
-                addTodo(self) {
-                    if (!self.todoValue) return
-                    self.todos = [{ id: uuidv4(), text: self.todoValue, completed: false }, ...self.todos]
-                    self.refTodoInput.value = ""
-                    self.todoValue = ""
-                    self.saveTodos(self)
+                addTodo() {
+                    if (!this.todoValue) return
+                    this.todos = [{ id: uuidv4(), text: this.todoValue, completed: false }, ...this.todos]
+                    this.refTodoInput.value = ""
+                    this.todoValue = ""
+                    this.saveTodos(this)
                 },
-                removeTodo(self, idToRemove) {
-                    self.todos = self.todos.filter(todo => todo.id !== idToRemove)
-                    self.saveTodos(self)
+                removeTodo(idToRemove) {
+                    this.todos = this.todos.filter(todo => todo.id !== idToRemove)
+                    this.saveTodos(this)
                 },
-                toggleTodo(self, idToComplete) {
-                    self.todos = self.todos.map(todo => {
+                toggleTodo(idToComplete) {
+                    this.todos = this.todos.map(todo => {
                         if (todo.id === idToComplete) {
                             return { ...todo, completed: !todo.completed }
                         }
                         return todo
                     })
-                    self.saveTodos(self)
+                    this.saveTodos(this)
                 },
-                countUncompletedTasks(self) {
-                    return self.todos.reduce((acc, todo) => acc + !todo.completed, 0)
+                countUncompletedTasks() {
+                    return this.todos.reduce((acc, todo) => acc + !todo.completed, 0)
                 },
-                getFilteredTodoList(self) {
-                    switch (self.filter) {
+                getFilteredTodoList() {
+                    switch (this.filter) {
                         case FILTER_ALL:
-                            return self.todos
+                            return this.todos
                         case FILTER_ACTIVE:
-                            return self.todos.filter(todo => !todo.completed)
+                            return this.todos.filter(todo => !todo.completed)
                         case FILTER_COMPLETED:
-                            return self.todos.filter(todo => todo.completed)
+                            return this.todos.filter(todo => todo.completed)
                     }
                 },
-                saveTodos(self) {
-                    localStorage.setItem('todos', JSON.stringify(self.todos))
+                saveTodos() {
+                    localStorage.setItem('todos', JSON.stringify(this.todos))
                 },
-                loadTodos(self) {
+                loadTodos() {
                     const data = JSON.parse(localStorage.getItem('todos'))
                     this.todos = data ? data : []
                 }

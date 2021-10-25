@@ -60,26 +60,26 @@
                 board: Array(9).fill(PLAYER_NONE),
                 turn: 0,
                 gameResults: {},
-                player: (self) => {
-                    return self.turn % 2 == 0 ? PLAYER_ONE : PLAYER_TWO
+                player() {
+                    return this.turn % 2 == 0 ? PLAYER_ONE : PLAYER_TWO
                 },
-                takeTurn: (self, index) => {
-                    if (self.gameResults.any) return
-                    if (self.board[index] !== PLAYER_NONE) return
-                    self.board = Object.assign([], self.board, {[index]: self.player()}) // Immutable value-at-index change
-                    self.turn += 1
-                    self.gameResults = gameWon(self.board, self.turn)
+                takeTurn(index) {
+                    if (this.gameResults.any) return
+                    if (this.board[index] !== PLAYER_NONE) return
+                    this.board = Object.assign([], this.board, {[index]: this.player()}) // Immutable value-at-index change
+                    this.turn += 1
+                    this.gameResults = gameWon(this.board, this.turn)
                 },
-                reset: (self) => {
-                    self.board = Array(9).fill(PLAYER_NONE)
-                    self.turn = 0
-                    self.gameResults = {}
+                reset() {
+                    this.board = Array(9).fill(PLAYER_NONE)
+                    this.turn = 0
+                    this.gameResults = {}
                 },
-                getSubtitle: (self) => {
-                    if (self.gameResults.playerOneWins) return `${PLAYER_ONE} Wins!`
-                    if (self.gameResults.playerTwoWins) return `${PLAYER_TWO} Wins!`
-                    if (self.gameResults.draw) return "Draw"
-                    return `Current Player: ${self.player()}`
+                getSubtitle() {
+                    if (this.gameResults.playerOneWins) return `${PLAYER_ONE} Wins!`
+                    if (this.gameResults.playerTwoWins) return `${PLAYER_TWO} Wins!`
+                    if (this.gameResults.draw) return "Draw"
+                    return `Current Player: ${this.player()}`
                 }
             }
         }
