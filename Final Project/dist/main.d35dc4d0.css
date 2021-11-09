@@ -870,6 +870,10 @@ video {
   transition-duration: 300ms;
 }
 
+.duration-500 {
+  transition-duration: 500ms;
+}
+
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
@@ -916,4 +920,4 @@ div::-webkit-scrollbar-thumb {
 @media (min-width: 1536px) {
 }
 
-/*# sourceMappingURL=/main.acc2d267.css.map */
+/*# sourceMappingURL=main.d35dc4d0.css.map */

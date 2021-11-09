@@ -2,7 +2,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel build --no-minify src/index.html"
+    "build": "rmdir /s /q dist && parcel build --no-minify --public-url . src/index.html"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",

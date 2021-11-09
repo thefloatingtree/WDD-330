@@ -444,4 +444,4 @@ function init() {
 
 window.onload = init;
 },{"./executor.js":"NOd8","./util.js":"ZbM1"}]},{},["JAwu"], null)
-//# sourceMappingURL=/sparkle.a82684c1.js.map
+//# sourceMappingURL=sparkle.a82684c1.js.map

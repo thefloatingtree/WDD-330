@@ -71,7 +71,7 @@
     </div>
     <div s-data="featuredImageComponent()" s-init="init()"
       class="md:col-span-6 lg:col-span-7 hidden md:inline h-full relative overflow-hidden">
-      <img s-show="!isLoading" s-bind="src to url" class="object-cover w-full h-full overflow-hidden transition-all">
+      <img s-show="!isLoading" s-bind="src to url" class="object-cover w-full h-full overflow-hidden transition-all duration-500 ease-out">
       <div s-if="isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-gray-900 rounded-md">Loading Featured
         Image...</div>
       <div s-if="!isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-gray-900 rounded-md">Featured Image
