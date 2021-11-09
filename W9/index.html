@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WDD 330 - W9 Notes</title>
+
+    <script type="module" src="../lib/sparkle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+</head>
+
+<body>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <p class="title">
+                Week 9 Index
+            </p>
+            <p class="subtitle">
+                <a href="../index.html">Go Home 🏠</a>
+            </p>
+        </div>
+    </section>
+    <div class="section">
+        <div class="container">
+            <div class="content">
+                <div class="columns">
+                    <div class="column is-narrow pr-6">
+                        <h2>Projects</h2>
+                        <ul>
+                            <!-- <li><a href="./async_test/index.html">Async Test</a></li> -->
+                        </ul>
+                        <h2>Team</h2>
+                        <ul>
+                            <!-- <li><a href="./team/team.html">Hikes (Comments)</a></li> -->
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h2><span class="rainbow">Sparkle</span> ✨</h2>
+                        <h3>Intro</h3>
+                        <div class="content">
+                            <p>
+                                When I came into this class I quickly realized that I was not going to be challenged
+                                very much by the course content. So I decided to challenge myself, and build a custom js
+                                framework to make my assignments easier (well, easier after the upfront cost of building
+                                the framework, haha).
+                            </p>
+                            <p>
+                                I decided to base the framework on the syntax found in <a
+                                    href="https://alpinejs.dev/">Alpine.js</a> because it was simple (ish) to implement,
+                                but powerful enough to still accomplish everything I wanted it to do. The basic gist is
+                                that you place attributes on HTML elements that will enact operations at runtime. I've
+                                implemented 9 attributes that, put together, can build a somewhat reactive application!
+                            </p>
+                            <div class="box">
+                                <div class="title">To-do Demo</div>
+                                <div class="columns" s-data="{ todos: [] }">
+                                    <div class="column">
+                                        <input class="input" type="text" placeholder="Add a todo..." s-ref="todoInput">
+                                        <button class="button mt-3" s-on="click do if (todoInput.value) { todos = [ ...todos, todoInput.value ]; todoInput.value = '' }">Add Todo</button>
+                                    </div>
+                                    <div class="column">
+                                        <div s-if="todos.length === 0">There are no todos to show!</div>
+                                        <div s-for="todo in todos">
+                                            <div class="box" s-text="todo"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>And here is the source!</p>
+<pre><code class="language-html"><div class="columns" s-data="{ todos: [] }">
+    <div class="column">
+        <input class="input" type="text" placeholder="Add a todo..." s-ref="todoInput">
+        <button class="button mt-3" s-on="click do if (todoInput.value) { todos = [ ...todos, todoInput.value ]; todoInput.value = '' }">Add Todo</button>
+    </div>
+    <div class="column">
+        <div s-if="todos.length === 0">There are no todos to show!</div>
+        <div s-for="todo in todos">
+            <div class="box" s-text="todo"></div>
+        </div>
+    </div>
+</div></code></pre>
+                            <p>You can see that it's quite small and simple! All DOM manipulation happens behind the scenes with Sparkle, so there are zero <code>document.getElementById()</code> or manual event listeners. One big rule for Sparkle, though, is immutability. If you ever need to change a variable, you must set it equal to something e.g. <code>list = [ ...list, newItem ]</code> vs <code>list.push(newItem)</code>. It's very important to do this, or else the reactive part of Sparkle will not activate to rebuild the HTML.</p>
+                            <h3>Attribute Reference</h3>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-data</h3>
+                                        <p>The root of a sparkle "component", it injects some data into the html
+                                            element. Every other attribute relies on an ancestor element with an s-data
+                                            attribute.</p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><div s-data="{ someData: 'is very cool!' }">
+    ...
+</div></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-ref</h3>
+                                        <p>Injects the element itself into the root element's s-data at the specified key.</p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><div s-ref="keyName">
+    ...
+</div></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-if</h3>
+                                        <p>If the expression evaluates to false, it will add a <code>display: none;</code> to the element.</p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><div s-if="shouldShow">
+    ...
+</div></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-bind</h3>
+                                    <p>Bind an attribute of the element to a value. When the value changes, the attribute will be udpated.</p>
+                                    <h6>Syntax</h6>
+                                    <p><code>attribute to value</code></p>
+                                    <h6>Optional Syntax</h6>
+                                    <p><code>attributeOne to valueOne and attributeTwo to valueTwo</code></p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><input type="text" s-bind="value to inputText" /></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-for</h3>
+                                    <p>Iterate over a list and generate HTML for each item.</p>
+                                    <h6>Syntax</h6>
+                                    <p><code>item in list</code></p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><div s-for="item in items">
+    <h1 s-text="item"></h1>
+</div></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-text</h3>
+                                    <p>Set the <code>innerText</code> of the element.</p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><p s-text="new Date().getFullYear()"></p></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-html</h3>
+                                    <p>Set the <code>innerHTML</code> of the element.</p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><p s-html="'<div>nice</div>'"></p></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-on</h3>
+                                    <p>Run an expression on an event.</p>
+                                    <h6>Syntax</h6>
+                                    <p><code>event do expression</code></p>
+                                    <h6>Optional Syntax</h6>
+                                    <p><code>eventOne do expressionOne and eventTwo do expressionTwo</code></p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><button s-on="click do console.log('Clicked!')">
+    Click Me!
+</button></code></pre>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column is-one-quarter">
+                                    <h4>s-init</h3>
+                                    <p>Run an expression when Sparkle inits.</p>
+                                </div>
+                                <div class="column">
+<pre><code class="language-html"><div s-init="console.log('Started up!')">
+    ...
+</div></code></pre>
+                                </div>
+                            </div>
+                            <h3>Implementation</h3>
+                            <p>There are two big parts to Sparkle. First, is a big function that takes an element as an input and then runs all the attributes on it if they exist. Second, is an executor function that runs the JS expression strings that come from the HTML. Additionally, Sparkle uses <code>Proxy</code> objects to detect when variables have been changed.</p>
+                            <h4>Attribute Runner</h4>
+                            <p>Here's an exerpt from the <code>runAttributes()</code> function, I've removed a couple of the attributes for brevity's sake. The full source can be found <a href="https://github.com/thefloatingtree/WDD-330/tree/master/lib">here.</a></p>
+<pre><code>function runAttributes(element) {
+    // s-data
+    // Inject data into the element
+    if (!hasInited) doIfNotNull(element.getAttribute('s-data'), (expression) => {
+        const data = execute(expression)
+        injectData(element, data)
+        element.__rootElement = true
+    })
+    // s-for
+    // Repeat a child element
+    doIfNotNull(element.getAttribute('s-for'), (expression) => {
+        if (element.__hidden) return
+        // Get list of items
+        const [valueKey, dataKey] = expression.split(' in ')
+        const list = execute(dataKey, getInjectedDataContext(element))
+
+        // Get child element
+        const children = getChildren(element)
+        const childTemplate = children[0]
+
+        element.__childTemplate = childTemplate ? childTemplate : element.__childTemplate
+
+        // Clear template child element
+        element.innerHTML = ""
+
+        // Clone child element for each item in list
+        list.forEach(value => {
+            const clone = element.__childTemplate.cloneNode(true)
+            injectData(clone, { [valueKey]: value })
+            element.appendChild(clone)
+        })
+    })
+    // s-text
+    // Inject a piece of data into element's innerText
+    doIfNotNull(element.getAttribute('s-text'), (expression) => {
+        if (element.__hidden) return
+        const text = execute(expression, getInjectedDataContext(element))
+        element.innerText = text
+    })
+    
+    ...
+
+    // Process children
+    getChildren(element).forEach(child => {
+        runAttributes(child)
+    })
+}</code></pre>
+                            <p>This function is essentially the beating heart of Sparkle. Starting at the root of the document it will run over it and execute each attribute in order, and then do the same for each of that element's children. Each attribute executor recieves the string value of the attribute as an input, parses it, and then adjusts the element or its children in some way. <code>s-data</code> injects data as a new property on the element object so that it can be accessed later. <code>s-for</code> first executes splits and runs the expression string and then uses that to build a list of HTML elements as children. <code>s-text</code> executes the expression string and sets <code>element.innerText</code> to whatever value was returned by the expression.</p>
+                            <p>It's actually really simple conceptually. However, it does get more difficult to reason about once reactivity, through proxies, is added.</p>
+                            <h4>Executor</h4>
+                            <p>The executor's job is to take any random expression string and then run it as JS. There is some additional complexity since the ran JS needs to have any <code>s-data</code> that is defined in a parent element exist in the scope. To accomplish this we run the expression in a <code>Function</code> object, and surround the call with a <code>with</code> block.</p>
+<pre><code>export function execute(expression, dataContext = {}, magicContext = {}) {
+    // Some fancy Regex magic taken from alpine.js' source
+    // Basically, if the expression starts with 'if' or 'let'/'const' wrap them in an anonymous function
+    const rightSideSafeExpression = 0
+        // Support expressions starting with "if" statements like: "if (...) doSomething()"
+        || /^[\n\s]*if.*\(.*\)/.test(expression)
+        // Support expressions starting with "let/const" like: "let foo = 'bar'"
+        || /^(let|const)/.test(expression)
+        ? `(() => { ${expression} })()`
+        : expression
+
+    // For any functions in the dataContext, bind the dataContext to them as 'this'
+    for (const [key, value] of Object.entries(dataContext)) {
+        if (typeof value === 'function') {
+            if (value.__alreadyBound) continue
+            const boundFunction = value.bind(dataContext)
+            boundFunction.__alreadyBound = true
+            dataContext[key] = { __noReactive: true, value: boundFunction }
+        }
+    }
+
+    // Run the expression with the dataContext
+    const func = new Function(['__self', 'scope', 'magic'], 
+        `
+        with (magic) { 
+            with (scope) {
+                __self.result = ${rightSideSafeExpression};
+            }
+        }
+        return __self.result;`
+    )
+    func(func, dataContext, magicContext)
+    return func.result
+}</code></pre>
+                            <h4>Proxies</h4>
+                            <p>This is where things get a little complicated. In a nutshell, proxies allow you to intercept get and set operations on a variable and run some code. This allows us to re-run our attributes on the HTML tree whenever a variable in the <code>s-data</code> for an element is modified. Additionally, sometimes we don't want to re-run attributes when a property on the proxy is changed, we need some extra logic to account for that. That's what the <code>value.__noReactive</code> portions of the code are checking for.</p>
+                            <p>A fun thing you can do with <code>Proxy</code> is define properties on objects that sort of exist as a "ghost property". On the <code>get</code> handler, you can add a check for whether the incoming property is named something specific, and you can then return a value for that property. I do this for <code>__isProxy</code> to easily determine whether or not a value is wrapped with a <code>Proxy</code> object.</p>
+                            <p>Here is the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">MDN Docs</a> with more information on proxies, if you're curious.</p>
+<pre><code>function injectData(element, data) {
+    // If there isn't already data, make a proxy
+    if (!element.__sData) {
+        element.__sData = data
+        element.__sData = new Proxy(element.__sData, {
+            set: (target, property, value) => {
+                if (value.__noReactive) {
+                    target[property] = value.value
+                } else {
+                    target[property] = value
+                    runAttributes(element)
+                }
+                return true
+            },
+            get: (target, property) => {
+                if (property == "__isProxy") return true
+                return target[property]
+            }
+        })
+    } else {
+        // Otherwise add new data to exisiting proxy
+        addDataToProxy(element.__sData, data)
+    }
+}</code></pre>
+                        </div>
+                        <h2>Notes</h2>
+                        <h3>Reading: "JavaScript: Novice to Ninja, 2nd Edition"</h3>
+                        <ul>
+                            <li>The Window Object</li>
+                            <ul>
+                                <li>It still blows my mind that you can access every global piece of data through the <code>window</code> object.</li>
+                                <li>Also, something useful that I figured out recently is that if you want to make a function availible to an HTML onclick handler from within an ES6 module, you can assign <code>window.functionName</code> to the function to add it to the global scope.</li>
+                                <li>Most of the things about the window object in this chapter are things that can just be googled when the occasion requires.</li>
+                                <li><code>setTimeout</code> and <code>setInterval</code> are pretty cool! Useful for debouncing input and stuff.</li>
+                                <li>I'm glad they go over <code>requestAnimationFrame</code>, it always kills me when people build games and animations with <code>setInterval</code>.</li>
+                                <li></li>
+                            </ul>
+                            <li>HTML5 APIs</li>
+                            <ul>
+                                <li>I didn't know that prefixing an attribute with <code>data-</code> makes the browser ignore it! Pretty neat!</li>
+                                <li>Didn't know there was a 'storage' event!</li>
+                                <li>I've never had to use the geolocation api's yet, good to know that they're there though!</li>
+                                <li>Web workers are neat, although I've never had to use them!</li>
+                                <li>Web sockets are simple in concept, but they're pretty hard to reason about actually.</li>
+                            </ul>
+                        </ul>
+                        <h2>Questions</h2>
+                        <p>No Questions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Fix HTML being interpreted in code blocks.
+        Array.from(document.getElementsByClassName('language-html')).forEach(function (element) {
+            element.innerHTML = element.innerHTML
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+        })
+        hljs.highlightAll()
+    </script>
+</body>
+
+</html>
