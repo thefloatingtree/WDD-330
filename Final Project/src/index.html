@@ -10,7 +10,8 @@
 
   <link rel="stylesheet" href="css/main.css" />
 
-  <script type="module" src="../../lib/sparkle.js"></script>
+  <script src="//unpkg.com/alpinejs" defer></script>
+  <!-- <script type="module" src="../../lib/sparkle.js"></script> -->
 </head>
 
 <script>
@@ -25,6 +26,7 @@
             this.url = res.image.representations.full
             const image = new Image()
             image.onload = () => {
+              this.$refs.featuredImage.style.opacity = 100
               this.isLoading = false
             }
             image.src = res.image.representations.full
@@ -32,10 +34,25 @@
       }
     }
   }
+
+  function dropdownComponent() {
+    return {
+      active: false,
+      nice() {
+        console.log(this.test)
+      }
+    }
+  }
+
+  function app() {
+    return {
+      test: false
+    }
+  }
 </script>
 
 <body>
-  <div class="bg-background grid grid-cols-12 h-screen">
+  <div x-data="app()" class="bg-background grid grid-cols-12 h-screen">
     <div class="col-span-full md:col-span-6 lg:col-span-5 h-full overflow-y-scroll">
       <div class="p-12 h-full flex flex-col gap-6">
         <div class="flex justify-between items-center">
@@ -48,7 +65,7 @@
           <h3 class="text-xl font-medium text-gray-200">Time Interval</h3>
           <div class="flex gap-4">
             <input type="text" class="transition-all ease-out duration-300 w-full h-12 py-2 px-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-500" value="60">
-            <button type="button" class="transition-all ease-out duration-300 inline-flex justify-center items-center rounded-lg shadow-sm h-12 py-2 px-4 bg-white font-semibold text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-blue-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
+            <button x-data="dropdownComponent()" x-init="nice()" type="button" class="transition-all ease-out duration-300 inline-flex justify-center items-center rounded-lg shadow-sm h-12 py-2 px-4 bg-white font-semibold text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-blue-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
               Seconds
               <!-- Heroicon name: solid/chevron-down -->
               <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -57,7 +74,7 @@
             </button>
           </div>
           <h3 class="text-xl font-medium text-gray-200">Sort Order</h3>
-          <button type="button" class="transition-all ease-out duration-300 inline-flex justify-between items-center rounded-lg shadow-sm w-full h-12 py-2 px-4 bg-white font-semibold text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-blue-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
+          <button x-data="dropdownComponent()" type="button" class="transition-all ease-out duration-300 inline-flex justify-between items-center rounded-lg shadow-sm w-full h-12 py-2 px-4 bg-white font-semibold text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-blue-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
             Random
             <!-- Heroicon name: solid/chevron-down -->
             <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -69,13 +86,13 @@
         <h2 class="text-3xl text-white">Tag Groups</h2>
       </div>
     </div>
-    <div s-data="featuredImageComponent()" s-init="init()"
+    <div x-data="featuredImageComponent()" x-init="init()"
       class="md:col-span-6 lg:col-span-7 hidden md:inline h-full relative overflow-hidden">
-      <img s-show="!isLoading" s-bind="src to url" class="object-cover w-full h-full overflow-hidden transition-all duration-500 ease-out">
-      <div s-if="isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-gray-900 rounded-md">Loading Featured
-        Image...</div>
-      <div s-if="!isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-gray-900 rounded-md">Featured Image
+      <img x-cloak x-ref="featuredImage" x-bind:src="url" class="object-cover w-full h-full overflow-hidden opacity-0 transition-all duration-500 ease-out">
+      <div x-show="!isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-background rounded-md">Featured Image
       </div>
+      <div x-show="isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-background rounded-md">Loading Featured
+        Image...</div>
     </div>
   </div>
 </body>
