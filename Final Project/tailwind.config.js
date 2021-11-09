@@ -1,6 +1,12 @@
 module.exports = {
-  purge: ['./src/**/*.html'],
-  theme: {},
+  purge: ['./src/index.html'],
+  theme: {
+    extend: {
+      colors: {
+        'background': '#171717'
+      }
+    }
+  },
   variants: {},
   plugins: [],
 };

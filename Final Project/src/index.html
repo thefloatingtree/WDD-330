@@ -1,21 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tailwind CSS Boilerplate</title>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="css/main.css" />
-  </head>
+  <title>Derpitimer</title>
 
-  <body class="py-16 bg-gray-200">
-    <h1 class="mb-4 text-4xl text-center text-gray-800 font-bold font-sans">
-      Tailwind CSS Boilerplate
-    </h1>
-    <p class="text-sm text-center text-gray-600 font-sans">
-      Get started by editing index.html
-    </p>
-  </body>
+  <link rel="stylesheet" href="css/main.css" />
+
+  <script type="module" src="../../lib/sparkle.js"></script>
+</head>
+
+<script>
+  function featuredImageComponent() {
+    return {
+      isLoading: true,
+      url: null,
+      init() {
+        fetch("https://derpibooru.org/api/v1/json/images/featured")
+          .then(res => res.json())
+          .then(res => {
+            this.url = res.image.representations.full
+            const image = new Image()
+            image.onload = () => {
+              this.isLoading = false
+            }
+            image.src = res.image.representations.full
+          })
+      }
+    }
+  }
+</script>
+
+<body>
+  <div class="bg-background grid grid-cols-12 h-screen">
+    <div class="col-span-full md:col-span-6 lg:col-span-5 h-full overflow-y-scroll">
+      <div class="p-12 h-full flex flex-col gap-6">
+        <div class="flex justify-between items-center">
+          <h1 class="pb-1 text-5xl font-medium text-white">Derpitimer</h1>
+          <button
+            class="transition-all ease-out duration-300 h-12 py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500">Continue</button>
+        </div>
+        <h2 class="text-3xl text-white">Timer Settings</h2>
+        <div class="flex flex-col gap-3">
+          <h3 class="text-xl font-medium text-gray-200">Time Interval</h3>
+          <div class="flex gap-4">
+            <input type="text" class="transition-all ease-out duration-300 w-full h-12 py-2 px-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-500" value="60">
+            <button type="button" class="transition-all ease-out duration-300 inline-flex justify-center items-center rounded-lg shadow-sm h-12 py-2 px-4 bg-white font-semibold text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-blue-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
+              Seconds
+              <!-- Heroicon name: solid/chevron-down -->
+              <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+          <h3 class="text-xl font-medium text-gray-200">Sort Order</h3>
+          <button type="button" class="transition-all ease-out duration-300 inline-flex justify-between items-center rounded-lg shadow-sm w-full h-12 py-2 px-4 bg-white font-semibold text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-blue-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
+            Random
+            <!-- Heroicon name: solid/chevron-down -->
+            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+        <h2 class="text-3xl text-white">Tags</h2>
+        <h2 class="text-3xl text-white">Tag Groups</h2>
+      </div>
+    </div>
+    <div s-data="featuredImageComponent()" s-init="init()"
+      class="md:col-span-6 lg:col-span-7 hidden md:inline h-full relative overflow-hidden">
+      <img s-show="!isLoading" s-bind="src to url" class="object-cover w-full h-full overflow-hidden transition-all">
+      <div s-if="isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-gray-900 rounded-md">Loading Featured
+        Image...</div>
+      <div s-if="!isLoading" class="absolute bottom-0 right-0 p-3 m-6 text-white bg-gray-900 rounded-md">Featured Image
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
