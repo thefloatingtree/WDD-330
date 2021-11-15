@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WDD 330 - W10 Notes</title>
+
+    <script type="module" src="../lib/sparkle.js"></script>
+    <link rel="stylesheet" href="./index.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+</head>
+
+<body>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <p class="title">
+                Week 10 Index
+            </p>
+            <p class="subtitle">
+                <a href="../index.html">Go Home 🏠</a>
+            </p>
+        </div>
+    </section>
+    <div class="section">
+        <div class="container">
+            <div class="content">
+                <h2>Notes</h2>
+                <h3>Reading: "MDN Docs"</h3>
+                <h4>Validating Forms</h4>
+                <p>I'm still learning how to use Svelte, so I thought this would be a good oportunity to learn a
+                    method of form validation with svelte! I read an article that recommended I pair my svelte
+                    form with a library caled 'yup', which has turned out to be a pleasure to use! The basic
+                    gist of yup is that you define a form schema, and then compare your form data to the schema
+                    to validate it. Yup will then give you back all the errors it spots in your form. I went
+                    ahead and built a little demo using Svelte and Yup to validate a simple form!</p>
+                <p>If the preview doesn't start automatically, run <code>ctrl+c</code> and
+                    <code>npm run preview</code>
+                </p>
+                <iframe src="https://stackblitz.com/edit/vitejs-vite-f85yuk?embed=1&file=src/App.svelte"
+                    frameborder="0"></iframe>
+                <h4 class="pt-6">Using Fetch</h4>
+                <p>Fetch is awesome, it's super convienient for sending off quick GET requests with no hassle. I
+                    think I still prefer to use libraries like 'axios' because of the more convienient interface
+                    <code>axios.post(url, data)</code> for example. With fetch you have to pass in a settings
+                    object to configure your HTTP method, which is somewhat annoying. Great for simple GET
+                    requests though!
+                </p>
+                <p>Here's an example of an async call to an image API using fetch and my custom framework.</p>
+<pre><code class="language-html"><script>
+    const URL = 'https://derpibooru.org/api/v1/json/search/images?q=izzy%20moonbow,screencap,-edited%20screencap,safe,-korean,-anthro,-animated&sf=random&per_page=1&page=1'
+    function asyncTest() {
+        return {
+            isLoading: true,
+            imageSrc: null,
+            init() {
+                fetch(URL)
+                    .then(res => res.json())
+                    .then(({ images }) => {
+                        this.isLoading = false
+                        this.imageSrc = images[0].representations.medium
+                    })
+            }
+        }
+    }
+</script>
+<div class="container section" s-data="asyncTest()" s-init="init()">
+    <div s-if="isLoading">Loading...</div>
+    <img s-if="!isLoading" s-bind="src to imageSrc" alt="Izzy pic" class="image">
+</div></code></pre>
+                <script>
+                    const URL = 'https://derpibooru.org/api/v1/json/search/images?q=izzy%20moonbow,screencap,-edited%20screencap,safe,-korean,-anthro,-animated&sf=random&per_page=1&page=1'
+                    function asyncTest() {
+                        return {
+                            isLoading: true,
+                            imageSrc: null,
+                            init() {
+                                fetch(URL)
+                                    .then(res => res.json())
+                                    .then(({ images }) => {
+                                        this.isLoading = false
+                                        this.imageSrc = images[0].representations.medium
+                                    })
+                            }
+                        }
+                    }
+                </script>
+                <div class="container section" s-data="asyncTest()" s-init="init()">
+                    <div s-if="isLoading">Loading...</div>
+                    <img s-if="!isLoading" s-bind="src to imageSrc" alt="Izzy pic" class="image">
+                </div>
+                <h2>Questions</h2>
+                <p>No Questions</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fix HTML being interpreted in code blocks.
+        Array.from(document.getElementsByClassName('language-html')).forEach(function (element) {
+            element.innerHTML = element.innerHTML
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+        })
+        hljs.highlightAll()
+    </script>
+</body>
+
+</html>
